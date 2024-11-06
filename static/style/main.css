@@ -1,0 +1,32 @@
+*{
+    margin: 10px;
+}
+
+.my_container{
+    border: 2px solid black;
+}
+
+.my_panel{
+    width: 80;
+    margin: auto;
+    height: auto;
+    border: 1px dashed black;
+}
+
+.input_form{
+    border: 1px solid blue;
+    width: 600px;
+    height: 600px;
+    margin: auto;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 16px;
+    text-align: justify;
+}
+
+.centre{
+    text-align: center;
+    margin:  auto;
+    color: rgb(10,56,155);
+}
