@@ -12,22 +12,25 @@
         <div class="centre"> <h1>Household Sevice </h1></div>
             <div class="my_panel">
             <div class="centre"> <h3>Log in </h3></div>
+            <form action="/login" method="POST"> 
                 <div class="input_form">
                     <div class="mb-3">
                         <label for="user_name" class="form-label">User Name(Email) </label>
-                        <input type="email" class="form-control" id="user_name" placeholder="Enter your user name or Email">
+                        <input type="email" class="form-control" name="user_name" id="user_name" placeholder="Enter your user name or Email">
                       </div>
 
                       <div class="mb-3">
                         <label for="password" class="form-label">Password </label>
-                        <input type="password" class="form-control" id="password" placeholder="Enter your password">
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Enter your password">
                       </div>
                       
                       <div class="mb-3">
-                      <button type="button" class="btn btn-primary">Log in</button>
-                        new User? <a href="signup.html"> signup</a>
+                      <button type="submit" class="btn btn-primary">Log in</button>
+                        new User? <a href="/register_professional"> signup as Professional</a> <a href="/register_customer"> signup as Customer</a>
+                        <div class="err_msg">{{msg}} </div>
                     </div>
                 </div>
+            </form>    
             </div>
 
 

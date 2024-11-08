@@ -11,38 +11,46 @@
         <div class="my_container">
         <div class="centre"> <h1>Household Sevice </h1></div>
             <div class="my_panel">
-            <div class="centre"> <h3>Sign up </h3></div>
-                <div class="input_form">
+            <div class="centre"> <h3>Customer Sign up </h3></div>
+            <form action="/register_customer" method="POST">
+                <div class="signup_form">
                     <div class="mb-3">
                         <label for="user_name" class="form-label">Email </label>
-                        <input type="email" class="form-control" id="user_name" placeholder="Enter Your Email">
+                        <input type="email" class="form-control" name="user_name" id="user_name" placeholder="Enter Your Email">
                       </div>
                       
                       <div class="mb-3">
                         <label for="full_name" class="form-label">Full Name </label>
-                        <input type="text" class="form-control" id="full_name" placeholder="Enter Your Full Name">
+                        <input type="text" class="form-control" name="full_name" id="full_name" placeholder="Enter Your Full Name">
                       </div>
 
                      <div class="mb-3"> 
                     <label for="address" class="form-label">Address </label>
-                        <input type="text" class="form-control" id="address" placeholder="Enter Your Address">
+                        <input type="text" class="form-control" name="address" id="address" placeholder="Enter Your Address">
                       </div>  
                       
                       <div class="mb-3"> 
                         <label for="pin_code" class="form-label">Pin Code </label>
-                            <input type="number" class="form-control" id="pin_code" placeholder="Enter Your Pin Code">
+                            <input type="number" class="form-control" name="pin_code" id="pin_code" placeholder="Enter Your Pin Code">
                           </div> 
+
+                          <div class="mb-3"> 
+                            <label for="descrtion" class="form-label">Descrtion </label>
+                                <input type="text" class="form-control" name="descrtion" id="descrtion" placeholder="Any other information ">
+                            </div> 
 
                       <div class="mb-3">
                         <label for="password" class="form-label">Password </label>
-                        <input type="password" class="form-control" id="password" placeholder="Enter Your password">
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Enter Your password">
                       </div>
                       
                       <div class="mb-3">
-                      <button type="button" class="btn btn-primary">Sign Up</button>
-                        already have a account? <a href="login.html"> Login</a>
+                      <button type="submit" class="btn btn-primary">Sign Up</button>
+                        already have a account? <a href="/login"> Login</a>
+                        <div class="centre">{{msg}} </div>
                     </div>
                 </div>
+              </form> 
             </div>
 
 

@@ -3,20 +3,36 @@
 }
 
 .my_container{
-    border: 2px solid black;
+    border: 2px solid rgb(244, 242, 242);
+    background-color:rgba(188, 204, 225, 0.788);
 }
 
 .my_panel{
-    width: 80;
+    width: auto;
     margin: auto;
-    height: auto;
-    border: 1px dashed black;
+    height: ;
+    color: black;
+    border: 1px solid rgb(248, 241, 241);
+    background-color: rgb(230, 235, 240);
 }
 
 .input_form{
+    border: 1px solid rgb(228, 228, 234);
+    width: 600px;
+    height: auto;
+    margin: auto;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 16px;
+    text-align: justify;
+    background-color: white;
+}
+
+.signup_form{
     border: 1px solid blue;
     width: 600px;
-    height: 600px;
+    height: 840px;
     margin: auto;
     margin-top: 20px;
     padding: 10px;
@@ -25,8 +41,35 @@
     text-align: justify;
 }
 
+.idx{
+    border: 1px solid blue;
+    width: 600px;
+    height: 300px;
+    margin: auto;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 16px;
+    text-align: justify;
+    text-align: center;
+    margin:  auto;
+    color: rgb(10,56,155);
+}
 .centre{
     text-align: center;
     margin:  auto;
     color: rgb(10,56,155);
+}
+
+.idx{
+    text-align: center;
+    margin:  auto;
+    color: rgb(2, 5, 14);
+    background-color: antiquewhite;
+}
+.err_msg{
+     text-align: center;
+     margin: auto;
+     color: maroon;
+
 }
