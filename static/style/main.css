@@ -10,7 +10,7 @@
 .my_panel{
     width: auto;
     margin: auto;
-    height: ;
+    height: auto;
     color: black;
     border: 1px solid rgb(248, 241, 241);
     background-color: rgb(230, 235, 240);
