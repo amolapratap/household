@@ -71,5 +71,10 @@
      text-align: center;
      margin: auto;
      color: maroon;
+}
 
+.wlc_msg{
+    text-align: center;
+    background-color: rgb(179, 187, 67);
+    color:rgb(60, 60, 72);
 }
