@@ -53,7 +53,7 @@ class Service(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name=db.Column(db.String,nullable=False)
     price=db.Column(db.Float,default=0.0)
-    time_required=db.Column(db.String)
+    action=db.Column(db.String,default="Edit/Delte")
     description=db.Column(db.String)    
     
     

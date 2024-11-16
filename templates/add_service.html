@@ -1,0 +1,39 @@
+{%extends "admin_layout.html"%}
+{%block content_add_service%}    <!--Inherited all nav featues-->
+
+
+
+
+            <div class="centre"> <h3> Add New Service</h3></div>
+            <form action="/add_venue/{{name}}" method="POST">
+                <div class="signup_form">
+                    <div class="mb-3">
+                        <label for="service_name" class="form-label">Service Name </label>
+                        <input type="text" class="form-control"  name="service_name" id="service_name" placeholder="Enter New Service Name">   <div class="centre">{{msg}} </div>
+                      </div>
+                      
+                      <div class="mb-3">
+                        <label for="price" class="form-label">Price </label>
+                        <input type="text" class="form-control" name="price" id="price" placeholder="Enter Price">
+                      </div>
+              <!--       <div class="mb-3">
+                        <label for="time_required" class="form-label"> Time Required </label>
+                        <input type="text" class="form-control" name="time_required" id="time_required" placeholder="Enter time to complete this Service">
+                      </div>   -->
+
+                     <div class="mb-3"> 
+                    <label for="description" class="form-label"> Descrtion </label>
+                        <input type="text" class="form-control" name="description" id="description" placeholder="Enter Description">
+                      </div>  
+                      
+                      
+                      <div class="mb-3">
+                      <button type="submit" class="btn btn-primary">submit</button>
+                      <a href="/admin/{{name}}" type="button" class="btn btn-primary"> cancel </a>
+                    </div>
+                </div>
+              </form>   
+            </div>
+
+     
+{%endblock%}            
