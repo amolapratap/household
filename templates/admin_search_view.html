@@ -1,9 +1,10 @@
 {%extends "admin_layout.html"%}
-{%block content%}    <!--Inherited all nav featues-->
+{%block content_search_view%}    <!--Inherited all nav featues-->
 
 
 
           <!--start of Service-->
+{%if services%}
          <div class="my_container">
             <div class="centre"> <h1>Services </h1></div>
               <div class="my_panel">
@@ -28,8 +29,9 @@
                     </div>
                   </div>
 
+
+
                   <div>
-                  {%if services%}
                   <div>
                   {%for service in services%}
                   <div class="row align-items-start">
@@ -43,7 +45,7 @@
                       {{service.price}}
                     </div>
                     <div class="col">
-                      <a class="btn btn-primary" href="/edit_service/{{service.id}}/{{name}}">    Edit <a clas="btn btn-danger" href="/delete_service/{{service.id}}/{{name}}">Delete </a>
+                      {{service.action}}
                     </div>
                     <div class="col">
                       {{service.description}}
@@ -51,23 +53,20 @@
                   </div>
                 
                   {%endfor%}
-                </div>
-                  {%else%}
-                  <h3 class="centre"> No Service available! </h3>
-                  {%endif%}
-                </div>
-
-                <br>
-                 
+              
                
               </div>
-              <div class="centre"> <a href="/add_service/{{name}}" type="button" class="btn btn-primary" class="centre"> +New Service</a> </div>
+              <div class="centre"> <a href="/add_venue/{{name}}" type="button" class="btn btn-primary" class="centre"> +New Service</a> </div>
         </div>
+
         <!--end of Service-->
 
+<br>
+<br>
 
 
         <!--start of professional-->
+{%elif professionals%}        
         <div class="my_container">   
           <div class="centre"> <h1> Professional </h1></div>
             <div class="my_panel">
@@ -94,7 +93,7 @@
                 
               
 
-                {%if professionals%}
+                
                 {%for professional in professionals%}
                 <div class="row align-items-start">
                   <div class="col">
@@ -114,29 +113,83 @@
                   </div>
                 </div>
                   {%endfor%}
-                <div>
-                {%else%}
-                <h3 class="centre"> No Service available! </h3>
-                {%endif%}
-              </div>
                 
                 
 
-
-              
+    
       <!--end of professional-->
 
+      
+      
+
+      <br><br><br>
+      <!--start of Customer-->
+{%elif customers%}        
+<div class="my_container">   
+  <div class="centre"> <h1> Customer </h1></div>
+    <div class="my_panel">
+
+      
+      <div class="container text-center">
+        <div class="row align-items-start" style="font-size: 20px;">
+          <div class="col">
+           ID
+          </div>
+          <div class="col">
+            Name
+          </div>
+          <div class="col">
+            Address
+          </div>
+          <div class="col">
+            Pin Code
+          </div>
+          <div class="col">
+            Date Created
+          </div>
+          <div class="col">
+            Description
+          </div>
+        </div>  </b>
+        
+      
+
+        
+        {%for customer in customers%}
+        <div class="row align-items-start">
+          <div class="col">
+           <a href="#"> {{customer.id}} </a>
+          </div>
+          <div class="col">
+            {{customer.full_name}}
+          </div>
+          <div class="col">
+            {{customer.address}}
+          </div>
+          <div class="col">
+            {{customer.pincode}}
+          </div>
+          <div class="col">
+            {{customer.date_created}}
+          </div>
+          <div class="col">
+            {{customer.description}}
+          </div>
+        </div>
+          {%endfor%}
+        
+        
+    
+<!--end of professional-->
 
 
 
 
-      <br>
-      <br>
 
-
-
+      <br><br>
 
       <!--start of Service request-->
+{%elif servicerequests%}        
       <div class="my_container">
         <div class="centre"> <h1>Services Request </h1></div>
           <div class="my_panel">
@@ -157,83 +210,32 @@
                   Status
                 </div>
               </div>  </b>
-              <div class="row align-items-start">
-                <div class="col">
-                 <a href="#">1</a>
-                </div>
-                <div class="col">
-                  professional--1
-                </div>
-                <div class="col">
-                  10-05-2024
-                </div>
-                <div class="col">
-                  Requested/Accepted/close
 
-                </div>
-              </div>
+              {%for servicerequest in servicerequests%}
               <div class="row align-items-start">
                 <div class="col">
-                  <a href="#">2</a>
+                 <a href="#"> {{servicerequest.id}} </a>
                 </div>
                 <div class="col">
-                  professional--2
+                  {{servicerequest.Professional_id}}
                 </div>
                 <div class="col">
-                  10-08-2024
+                  {{servicerequest.date_of_request}}
                 </div>
                 <div class="col">
-                  Requested/Accepted/close
+                  {{servicerequest.status}}
                 </div>
               </div>
-              <div class="row align-items-start">
-                <div class="col">
-                  <a href="#">3</a>
-                </div>
-                <div class="col">
-                  professional--3
-                </div>
-                <div class="col">
-                  25-05-2024
-                </div>
-                <div class="col">
-                  Requested/Accepted/close
-                </div>
-              </div>
-              <div class="row align-items-start">
-                <div class="col">
-                  <a href="#">4</a>
-                </div>
-                <div class="col">
-                  professional--4
-                </div>
-                <div class="col">
-                  15-01-2024
-                </div>
-                <div class="col">
-                  Requested/Accepted/close
-                </div>
-              </div>
-              <div class="row align-items-start">
-                <div class="col">
-                  <a href="#">5</a>
-                </div>
-                <div class="col">
-                  professional--5
-                </div>
-                <div class="col">
-                  22-09-2024
-                </div>
-                <div class="col">
-                  Requested/Accepted/close
-                </div>
-              </div>
-            </div>
-           
-           </div> 
-          </div>
-        </div>
+              {%endfor%}
+
     <!--end of Service request-->
 
 
+<!-- if not found any from above-->
+{%else%}
+    <div class="centre">
+      {{msg}}
+    </div>
+{%endif%}
+  
     {%endblock%}

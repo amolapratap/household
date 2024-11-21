@@ -2,6 +2,7 @@
 from flask import Flask,render_template,request,url_for,redirect
 from flask import current_app as app
 from .models import *
+from datetime import date
 
 
 @app.route("/")
@@ -103,13 +104,14 @@ def professional_dashboard(name):
 #common route for customer dashboard
 @app.route("/customer/<name>")
 def customer_dashboard(name):
-    return render_template("customer_dashboard.html",name=name)
+    services=get_services()
+    return render_template("customer_dashboard.html",name=name,services=services)
 
 
 
 
 #may controller/routers
-@app.route("/add_venue/<name>",methods=["GET","POST"])
+@app.route("/add_service/<name>",methods=["GET","POST"])
 def add_service(name):
     if request.method=="POST":
         service_name=request.form.get("service_name")
@@ -123,18 +125,90 @@ def add_service(name):
         db.session.add(new_service)
         db.session.commit()
         return redirect(url_for("admin_dashboard",name=name))
-        
-            
+           
     return render_template("add_service.html",name=name)
 
 
+@app.route("/search/<name>",methods=["GET","POST"])
+def search(name):
+    if request.method=="POST":
+        search_txt=request.form.get("search_txt")
+        by_service=search_by_service(search_txt)
+        by_professional=search_by_professional(search_txt)
+        by_customer=search_by_customer(search_txt)
+        #by_service_request=search_by_service_request(search_txt)
+        if by_service:
+            return render_template("admin_search_view.html",name=name,services=by_service)
+        elif by_professional:
+            return render_template("admin_search_view.html",name=name,professionals=by_professional)
+        elif by_customer:
+            return render_template("admin_search_view.html",name=name,customers=by_customer)
+       # elif by_service_request:
+       #     return render_template("admin_search_view.html",name=name,servicerequests=by_service_request)
+        else:
+            return render_template("admin_search_view.html",name=name,msg="Not Found")
+    return redirect(url_for("admin_dashboard",name=name))     
 
+
+
+@app.route("/edit_service/<id>/<name>",methods=["GET","POST"])
+def edit_service(id,name):
+    service=get_service(id)
+    if request.method=="POST":
+        #taking  data from form
+        service_name=request.form.get("service_name")
+        price=request.form.get("price")
+        description=request.form.get("description")
+        #updating data
+        service.name=service_name
+        service.price=price
+        service.description=description
+        db.session.commit()
+        return redirect(url_for("admin_dashboard",name=name))
+    
+    return render_template("edit_service.html",name=name,service=service)
+        
+
+@app.route("/delete_service/<id>/<name>",methods=["GET","POST"])
+def delete_service(id,name):
+    service=get_service(id)
+    db.session.delete(service)
+    db.session.commit()
+    return redirect(url_for("admin_dashboard",name=name))
+    
+    
 #other supported function
 def get_services():
     services = Service.query.all()  
     return services
 
+
 def get_professionals():
     professionals = Professional.query.all()  
     return professionals
     
+    
+def search_by_service(search_txt):
+    services = Service.query.filter(Service.name.ilike('%' + search_txt + '%')).all()
+    return services
+
+
+def search_by_professional(search_txt):
+    professionals = Professional.query.filter(Professional.full_name.ilike('%' + search_txt + '%')).all()
+    return professionals
+
+
+def search_by_customer(search_txt):
+    customers = Customer.query.filter(Customer.full_name.ilike('%' + search_txt + '%')).all()
+    return customers
+
+def search_by_service_request(search_txt):
+    service_requests = Service_Request.query.filter(Service_Request.status.ilike('%' + search_txt + '%')).all()
+    return service_requests       
+
+def get_service(id):
+    service = Service.query.filter_by(id=id).first()
+    return service
+
+
+                                                 

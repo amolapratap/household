@@ -5,6 +5,40 @@
 
 
 
+          <!-- Start for select service-->
+          <div class="container text-center">
+            <div class="row align-items-start" style="font-size: 20px;">
+              <div class="col">
+          
+                <div class="container-fluid mt-5" width="100%">
+                  <h2 class="text-center mb-4">Select a Service</h2>
+                  <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-5 g-2">
+{%if services%}
+{%for service in services%}
+                      <!-- Card 1 -->
+                      <div class="col">
+                          <div class="card h-100 shadow-sm">
+                              <div class="card-body">
+                                  <h5 class="card-title">{{service.name}} </h5>
+                                  <p class="card-text">{{service.description}}</p>
+                                  <h7 class="card-title">Start @ ₹{{service.price}} </h8>
+                                  <a href="#" class="btn btn-primary">Book</a>
+                              </div>
+                          </div>
+                      </div>
+{%endfor%}
+{%else%}
+<div class="centre"> No Service available</div>
+{%endif%}                      
+                     
+                      
+                  </div>
+              </div>
+
+            </div>
+          </div>
+          <div>
+          <!--End for select service-->
 
 
 

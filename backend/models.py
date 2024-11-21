@@ -58,9 +58,9 @@ class Service(db.Model):
     
     
     
-#Entity4 Servie Request
-class Servie_Request(db.Model):
-    __tablename__="servierequest"
+#Entity4 Service Request
+class Service_Request(db.Model):
+    __tablename__="servicerequest"
     id = db.Column(db.Integer, primary_key=True)
     Service_id = db.Column(db.Integer, db.ForeignKey("service.id"),nullable=False)
     Customer_id = db.Column(db.Integer, db.ForeignKey("customer.id"),nullable=False)
@@ -70,4 +70,6 @@ class Servie_Request(db.Model):
     description=db.Column(db.String)  
     status=db.Column(db.String,default=0) 
     rating=db.Column(db.String,default=0)  
+    # Relationships
+    #service_name = db.relationship('service', backref='servicerequests')  #Service_id can access his name
      

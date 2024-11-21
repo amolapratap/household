@@ -15,16 +15,17 @@
                 <div class="container-fluid">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                       <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link active" aria-current="page" href="/admin/{{name}}">Home</a>
                       </li>
-                      <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Search</a>
-                      </li>
+                      <form class="d-flex" action="/search/{{name}}" method="POST">
+                        <input class="form-control me-2" type="search" placeholder="Search Servicece/ Professional/ Customer" aria-label="Search" name="search_txt" id="search_txt"> 
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                      </form>
                       <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#">Summary</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="#">Logout</a>
+                        <a class="nav-link" href="/login">Logout</a>
                       </li>
                     </ul>
                     <span class="navbar-text">
@@ -45,7 +46,14 @@
 
             {%block content_add_service%}
             <!--This part is getting from child html (add new Service)-->
+            {%endblock%}
 
+            {%block content_search_view%}
+            <!--This part is getting from child html (admin search view)-->
+            {%endblock%}
+
+            {%block content_edit_service%}
+            <!--This part is getting from child html (admin search view)-->
             {%endblock%}
 
 

@@ -1,20 +1,20 @@
 {%extends "admin_layout.html"%}
-{%block content_add_service%}    <!--Inherited all nav featues-->
+{%block content_edit_service%}    <!--Inherited all nav featues-->
 
 
 
-
-            <div class="centre"> <h3> Add New Service</h3></div>
-            <form action="/add_service/{{name}}" method="POST">
+          {%if service%}
+            <div class="centre"> <h3> Edit Service</h3></div>
+            <form action="/edit_service/{{service.id}}/{{name}}" method="POST">
                 <div class="signup_form">
                     <div class="mb-3">
                         <label for="service_name" class="form-label">Service Name </label>
-                        <input type="text" class="form-control"  name="service_name" id="service_name" placeholder="Enter New Service Name">   <div class="centre">{{msg}} </div>
+                        <input type="text" class="form-control"  name="service_name" id="service_name" value="{{service.name}}" placeholder="Enter New Service Name">   <div class="centre">{{msg}} </div>
                       </div>
                       
                       <div class="mb-3">
                         <label for="price" class="form-label">Price </label>
-                        <input type="text" class="form-control" name="price" id="price" placeholder="Enter Price">
+                        <input type="text" class="form-control" name="price" id="price" value="{{service.price}}" placeholder="Enter Price">
                       </div>
               <!--       <div class="mb-3">
                         <label for="time_required" class="form-label"> Time Required </label>
@@ -23,17 +23,17 @@
 
                      <div class="mb-3"> 
                     <label for="description" class="form-label"> Descrtion </label>
-                        <input type="text" class="form-control" name="description" id="description" placeholder="Enter Description">
+                        <input type="text" class="form-control" name="description" id="description" value="{{service.description}}" placeholder="Enter Description">
                       </div>  
                       
                       
                       <div class="mb-3">
-                      <button type="submit" class="btn btn-primary">submit</button>
+                      <button type="submit" class="btn btn-primary"> Update </button>
                       <a href="/admin/{{name}}" type="button" class="btn btn-primary"> cancel </a>
                     </div>
                 </div>
               </form>   
             </div>
-
+            {%endif%}
      
 {%endblock%}            
