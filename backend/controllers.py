@@ -108,6 +108,7 @@ def admin_dashboard(name):
 @app.route("/professional/<name>")
 def professional_dashboard(name):
     services_request=all_services_request(name)
+    services_request=get_customer_service_history_to_professional(name)
     return render_template("professional_dashboard.html",name=name,services_request=services_request)
 
 #common route for customer dashboard
@@ -253,6 +254,24 @@ def get_professional(name):
 def get_professional_by_id(pid):
     Professionals=Professional.query.filter_by(id=pid).all()
     return Professionals
+
+def get_customer_service_history_to_professional(name):
+    professional=get_professional(name)
+    professional_id=professional.id
+    service_history = (
+        db.session.query(
+            Service_Request.id.label("request_id"),
+            Customer.full_name.label("customer_name"),
+            Customer.mobile_number.label("customer_mobile"),
+            Customer.address.label("customer_address"),
+            Service_Request.service_date.label("service_date")
+        )
+        .join(Service, Service_Request.Service_id == Service.id)
+        .join(Customer, Service_Request.Customer_id == Customer.id)
+        .filter(Service_Request.Professional_id == professional.id)
+        .all()
+    )
+    return service_history
 
 
 
