@@ -25,7 +25,10 @@ class Professional(db.Model):
     address=db.Column(db.String,nullable=False)
     pincode=db.Column(db.Integer,nullable=False)
     date_created=db.Column(db.String,default=0)
+    mobile_number=db.Column(db.Integer,nullable=False)
     description=db.Column(db.String)
+    rating=db.Column(db.String,default=0)
+    rating_count=db.Column(db.String,default=0)
     password=db.Column(db.String,nullable=False)
     
     
@@ -41,6 +44,7 @@ class Customer(db.Model):
     full_name=db.Column(db.String,nullable=False)
     address=db.Column(db.String,nullable=False)
     pincode=db.Column(db.Integer,nullable=False)
+    mobile_number=db.Column(db.Integer,nullable=False)
     date_created=db.Column(db.String)
     description=db.Column(db.String)
     password=db.Column(db.String,nullable=False)  
@@ -66,10 +70,15 @@ class Service_Request(db.Model):
     Customer_id = db.Column(db.Integer, db.ForeignKey("customer.id"),nullable=False)
     Professional_id = db.Column(db.Integer, db.ForeignKey("professional.id"),nullable=False)
     date_of_request=db.Column(db.String)
+    service_date=db.Column(db.String)
     date_of_completion=db.Column(db.String)
     description=db.Column(db.String)  
     status=db.Column(db.String,default=0) 
     rating=db.Column(db.String,default=0)  
     # Relationships
     #service_name = db.relationship('service', backref='servicerequests')  #Service_id can access his name
+   
+    service = db.relationship("Service", backref="Servicerequests")  # Access Service details
+    customer = db.relationship("Customer", backref="servicerequests")  # Access Customer details
+    professional = db.relationship("Professional", backref="servicerequests")  # Access Professional details
      

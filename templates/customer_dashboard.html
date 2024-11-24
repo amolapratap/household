@@ -3,33 +3,35 @@
 
 
 
-
-
           <!-- Start for select service-->
           <div class="container text-center">
             <div class="row align-items-start" style="font-size: 20px;">
               <div class="col">
           
                 <div class="container-fluid mt-5" width="100%">
-                  <h2 class="text-center mb-4">Select a Service</h2>
+                  <h2 class="text-center mb-4">Select any Service</h2>
+                  <div class="centre">
+                    {{cnf_msg}}
+                  </div>
                   <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-5 g-2">
 {%if services%}
 {%for service in services%}
                       <!-- Card 1 -->
+                      {{cnf_msg}}
                       <div class="col">
                           <div class="card h-100 shadow-sm">
                               <div class="card-body">
                                   <h5 class="card-title">{{service.name}} </h5>
                                   <p class="card-text">{{service.description}}</p>
                                   <h7 class="card-title">Start @ ₹{{service.price}} </h8>
-                                  <a href="#" class="btn btn-primary">Book</a>
+                                  <a href="/view_service/{{service.id}}/{{customer.id}}/{{name}}" class="btn btn-outline-primary">Select</a>
                               </div>
                           </div>
                       </div>
 {%endfor%}
 {%else%}
 <div class="centre"> No Service available</div>
-{%endif%}                      
+{%endif%}
                      
                       
                   </div>
@@ -37,7 +39,7 @@
 
             </div>
           </div>
-          <div>
+                                <div>
           <!--End for select service-->
 
 
@@ -47,7 +49,7 @@
             <div class="centre"> <h1>Service History</h1></div>
               <div class="my_panel">
 
-                
+{%if services_request%}                
                 <div class="container text-center">
                   <div class="row align-items-start" style="font-size: 20px;">
                     <div class="col">
@@ -60,103 +62,48 @@
                       professional Name
                     </div>
                     <div class="col">
+                      Service Date
+                    </div>
+                    <div class="col">
                       Mobile Number
                     </div>
                     <div class="col">
                       Status
                     </div>
                   </div>  </b>
+
+{%for service_request in services_request%}
+
                   <div class="row align-items-start">
                     <div class="col">
-                     <a href="#">1</a>
+                     <a href="#">{{service_request.request_id}}</a>
                     </div>
                     <div class="col">
-                      Professional--1
+                      {{service_request.service_name}}
                     </div>
                     <div class="col">
-                      Customer--1
+                     {{service_request.professional_name}}
                     </div>
                     <div class="col">
-                      +91 9876543210
+                      {{service_request.service_date}}
+                      </div>
+                    <div class="col">
+                      {{service_request.professional_mobile}}
                     </div>
                     <div class="col">
-                      Requested
+                      {{service_request.status}}
                     </div>
                   </div>
-                  <div class="row align-items-start">
-                    <div class="col">
-                     <a href="#">2</a>
-                    </div>
-                    <div class="col">
-                      Professional--2
-                    </div>
-                    <div class="col">
-                      Customer--2
-                    </div>
-                    <div class="col">
-                      +91 9876543210
-                    </div>
-                    <div class="col">
-                      Requested
-                    </div>
-                  </div>
-                  <div class="row align-items-start">
-                    <div class="col">
-                     <a href="#">3</a>
-                    </div>
-                    <div class="col">
-                      Professional--3
-                    </div>
-                    <div class="col">
-                      Customer--3
-                    </div>
-                    <div class="col">
-                      +91 9876543210
-                    </div>
-                    <div class="col">
-                      close it?
-                    </div>
-                  </div>
-                  <div class="row align-items-start">
-                    <div class="col">
-                     <a href="#">4</a>
-                    </div>
-                    <div class="col">
-                      Professional--4
-                    </div>
-                    <div class="col">
-                      Customer--4
-                    </div>
-                    <div class="col">
-                      +91 9876543210
-                    </div>
-                    <div class="col">
-                      closed
-                    </div>
-                  </div>
-                  <div class="row align-items-start">
-                    <div class="col">
-                     <a href="#">5</a>
-                    </div>
-                    <div class="col">
-                      Professional--5
-                    </div>
-                    <div class="col">
-                      Customer--5
-                    </div>
-                    <div class="col">
-                      +91 9876543210
-                    </div>
-                    <div class="col">
-                      closed
-                    </div>
-                  </div>
-                  
-                </div>
-               
-              </div>
-            </div>
-        <!--end of Today Service History-->
+{%endfor%}
+{%else%}
+<div class="centre"> No Service History available</div>
+{%endif%}                  
+
+
+
+                     
+             
+        <!--end of Today  Servicehhistory-->
 
 
 

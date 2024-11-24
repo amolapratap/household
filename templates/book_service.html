@@ -1,0 +1,66 @@
+{%extends "customer_layout.html"%}
+{%block book_service%}    <!--Inherited all nav featues-->
+
+
+
+
+            <div class="centre"> <h3> Book Service</h3></div>
+            <div class="centre"> <h3>  Service: {{service.name}} </h3> </admin>
+            <form action="/book_service/{{service.id}}/{{cid}}/{{professional.id}}/{{name}}" method="POST">
+                <div class="signup_form">
+                      <div class="mb-3">
+                        
+                        <input type="hidden" class="form-control"  name="sid" id="sid" value="{{service.id}}" readonly>
+                      </div>
+                      <div class="mb-3">
+                        
+                        <input type="hidden" class="form-control"  name="cid" id="cid" value="{{cid}}" readonly>
+                      </div>
+                        <div class="mb-3">
+                          
+                          <input type="hidden" class="form-control"  name="pid" id="pid" value="{{professional.id}}" readonly>
+                        </div>
+
+                          <div class="mb-3">
+                            <label for="description" class="form-label" style="color:#1F75FE;">Service Description: </label>
+                             {{professional.description}}
+                          </div>
+
+                          <div class="mb-3">
+                            <label for="name" class="form-label" style="color:#1F75FE;">Professional Name: </label>
+                            {{professional.full_name}} 
+                          </div>
+                          
+                          <div class="mb-3">
+                            <label for="description" class="form-label" style="color:#1F75FE;"> Professional Address: </label>
+                             {{professional.address}} 
+                          </div>
+
+                          <div class="mb-3">
+                            <label for="price" class="form-label" style="color:#1F75FE;" > Price: </label>
+                             {{service.price}}
+                          </div>
+                      
+                          <div class="mb-3"> 
+                            <label for="description" class="form-label" style="color:#1F75FE;">Descrtion </label>
+                                <input type="text" class="form-control" name="description" id="description" placeholder="Any message to the professional">
+                                  </div> 
+                           <div class="mb-3"> 
+                             <label for="date" class="form-label" style="color:#1F75FE;">Service Date (On which date you want to book the service) </label>
+                                <input type="date" class="form-control" name="service_date" id="service_date" >
+                                    </div> 
+                      
+              
+                    
+                      
+                      
+                      <div class="mb-3">
+                      <button type="submit" class="btn btn-primary"> Book</button>
+                      <a href="/view_service/{{service.id}}/{{cid}}/{{name}}" type="button" class="btn btn-primary"> ←Back </a>
+                    </div>
+                </div>
+              </form>   
+            </div>
+
+     
+{%endblock%}            

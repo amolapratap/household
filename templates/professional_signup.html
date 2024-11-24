@@ -23,10 +23,17 @@
                         <label for="full_name" class="form-label">Full Name </label>
                         <input type="text" class="form-control" name="full_name" id="full_name" placeholder="Enter Your Full Name">
                       </div>
-                      <div class="mb-3">
-                        <label for="service_type" class="form-label">Service Type </label>
-                        <input type="text" class="form-control" name="service_type" id="service_type" placeholder="Enter Service you want to provide">
-                      </div>
+                     
+                        <div class="mb-3">
+                          <label for="service_type" class="form-label">Select Service</label>
+                          <select class="form-control" id="service_type" name="service_type" required>
+                            <option value="">-- Select a Service --</option>
+                            {% for service in Services %}
+                            <option value="{{ service.name }}">{{ service.name }}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                      
                       <div class="mb-3">
                         <label for="experince" class="form-label">Experince(in months) </label>
                         <input type="text" class="form-control" name="experience" id="experience" placeholder="Enter Your experince">
@@ -42,8 +49,13 @@
                             <input type="number" class="form-control" name="pin_code" id="pin_code" placeholder="Enter Your Pin Code">
                           </div>     
                       <div class="mb-3"> 
-                        <label for="descrtion" class="form-label">Descrtion </label>
-                            <input type="text" class="form-control" name="descrtion" id="descrtion" placeholder="Any other information about your service">
+                        <div class="mb-3"> 
+                          <label for="mob_num" class="form-label">Mobile Number </label>
+                              <input type="number" class="form-control" name="mob_num" id="mob_num" placeholder="Enter Your Mobile Number">
+                            </div>     
+                        <div class="mb-3">   
+                        <label for="description" class="form-label">Descrtion </label>
+                            <input type="text" class="form-control" name="description" id="description" placeholder="Any other information about your service">
                               </div>     
                       <div class="mb-3">
                         <label for="password" class="form-label">Password </label>
