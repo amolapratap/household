@@ -136,12 +136,13 @@
 
 
 
+
       <!--start of Service request-->
       <div class="my_container">
         <div class="centre"> <h1>Services Request </h1></div>
           <div class="my_panel">
 
-            
+{%if services_request%}   
             <div class="container text-center">
               <div class="row align-items-start" style="font-size: 20px;">
                 <div class="col">
@@ -157,82 +158,32 @@
                   Status
                 </div>
               </div>  </b>
-              <div class="row align-items-start">
-                <div class="col">
-                 <a href="#">1</a>
-                </div>
-                <div class="col">
-                  professional--1
-                </div>
-                <div class="col">
-                  10-05-2024
-                </div>
-                <div class="col">
-                  Requested/Accepted/close
 
-                </div>
-              </div>
+{%for service_request in services_request%}
+
               <div class="row align-items-start">
                 <div class="col">
-                  <a href="#">2</a>
+                 <a href="#">{{service_request.id}}</a>
                 </div>
                 <div class="col">
-                  professional--2
+                 {{service_request.professional.full_name}}
                 </div>
                 <div class="col">
-                  10-08-2024
+                   {{service_request.service_date}}
                 </div>
                 <div class="col">
-                  Requested/Accepted/close
+                  {{service_request.status}}
                 </div>
               </div>
-              <div class="row align-items-start">
-                <div class="col">
-                  <a href="#">3</a>
-                </div>
-                <div class="col">
-                  professional--3
-                </div>
-                <div class="col">
-                  25-05-2024
-                </div>
-                <div class="col">
-                  Requested/Accepted/close
-                </div>
-              </div>
-              <div class="row align-items-start">
-                <div class="col">
-                  <a href="#">4</a>
-                </div>
-                <div class="col">
-                  professional--4
-                </div>
-                <div class="col">
-                  15-01-2024
-                </div>
-                <div class="col">
-                  Requested/Accepted/close
-                </div>
-              </div>
-              <div class="row align-items-start">
-                <div class="col">
-                  <a href="#">5</a>
-                </div>
-                <div class="col">
-                  professional--5
-                </div>
-                <div class="col">
-                  22-09-2024
-                </div>
-                <div class="col">
-                  Requested/Accepted/close
-                </div>
-              </div>
-            </div>
-           
-           </div> 
-          </div>
-        </div>
+
+{%endfor%}
+{%else%}
+<div>
+  <h3 class="centre"> No Service available! </h3>
+</div>
+{%endif%}
+
+         
     <!--end of Service request-->
 
 

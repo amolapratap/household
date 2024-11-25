@@ -213,6 +213,8 @@ def book_service(sid,cid,pid,name):
         current_date = date.today()
         current_date = current_date.strftime("%d-%m-%Y")
         service_date=request.form.get("service_date")
+        service_date=datetime.strptime(service_date, "%Y-%m-%d")
+        service_date = service_date.strftime("%d-%m-%Y")
         description=request.form.get("description")
         status="Requested"
         new_service_request=Service_Request(Service_id=sid,Customer_id=cid,Professional_id=pid,date_of_request=current_date,service_date=service_date,description=description,status=status)
