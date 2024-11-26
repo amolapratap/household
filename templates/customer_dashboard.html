@@ -87,12 +87,36 @@
                     <div class="col">
                       {{service_request.service_date}}
                       </div>
-                    <div class="col">
-                      {{service_request.professional_mobile}}
+<!--Mobile Number-->
+{%if service_request.status=="Accepted"%} 
+                      <div class="col">
+                     {{service_request.professional_mobile}}
                     </div>
+{%else%}
                     <div class="col">
-                      {{service_request.status}}
+                      Not available 
                     </div>
+{%endif%}
+
+<!--Service Status-->
+{%if service_request.status=="Accepted"%}
+                    <div class="col" >
+                      {{service_request.status}}  <a href="/close_request/{{service_request.request_id}}/{{name}}"  class="btn btn-primary"> Close it?  </a> 
+                    </div> 
+{%elif service_request.status=="Requested"%}
+                    <div class="col" >
+                      {{service_request.status}}  <a href="/edit_request/{{service_request.request_id}}/{{name}}"  class="btn btn-primary"> Edit  </a> 
+                    </div>
+{%elif service_request.status=="closed"%}
+                    <div class="col" >
+                      {{service_request.status}}  
+                    </div>
+{%else%}
+                      <div class="col">
+                        Rejected 
+                    </div>
+{%endif%}
+
                   </div>
 {%endfor%}
 {%else%}

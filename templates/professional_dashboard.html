@@ -10,7 +10,7 @@
 
           <!--start of new Service-->
          <div class="my_container">
-            <div class="centre"> <h1> New  Service Request</h1></div>
+            <div class="centre"> <h1> Service Request</h1></div>
               <div class="my_panel">
 {%if services_request%}                
                 <div class="container text-center">
@@ -35,7 +35,8 @@
                     </div>
                   </div>  </b>
 
-{%for request in services_request%}  
+{%for request in services_request%}
+{%if request.service_status != 'closed' %}  
            
                   <div class="row align-items-start">
                     <div class="col">
@@ -53,10 +54,26 @@
                     <div class="col">
                       {{request.service_date}}
                     </div>
+<!--Service Status-->                    
+            {%if request.service_status == 'Accepted' %}
                     <div class="col">
-                      <a href="#" class="centre"> Accept </a>   <a href="#" class="centre">/Rejecte </a>
+                      <p> Ongoing </p>
                     </div>
+            {%elif request.service_status == 'Rejected' %}
+                    <div class="col">
+                      <p> You Rejected </p>
+                    </div>
+            {%elif request.service_status == 'closed' %}
+                    <div class="col">
+                      <p> Closed </p>
+                    </div>
+            {%else%}
+                    <div class="col">
+                      <a href="/update_service_request/{{request.request_id}}/{{name}}"  class="btn btn-primary"> Accept </a>   <a href="/reject_service_request/{{request.request_id}}/{{name}}" class="centre">Reject </a>
+                    </div>
+            {%endif%}
                   </div>
+{%endif%}
 {%endfor%}
 {%else%}
 <div class="centre"> No New Service Request</div>
@@ -71,7 +88,8 @@
   <div class="centre"> <h1>Closed Services </h1></div>
     <div class="my_panel">
 
-      
+
+{%if services_request%} 
       <div class="container text-center">
         <div class="row align-items-start" style="font-size: 20px;">
           <div class="col">
@@ -84,7 +102,7 @@
             Mobile Number
           </div>
           <div class="col">
-            Location
+            Address
           </div>
           <div class="col">
             Service Date
@@ -93,106 +111,41 @@
             Rating
           </div>
         </div>  </b>
+
+{%for request in services_request%}
+{%if request.service_status == 'closed' %}
+
+
         <div class="row align-items-start">
           <div class="col">
-           <a href="#">6</a>
+           <a href="#">{{request.request_id}}</a>
           </div>
           <div class="col">
-            Customer--6
+            {{request.customer_name}}
           </div>
           <div class="col">
-            +91 9876543210
+            {{request.customer_mobile}}
           </div>
           <div class="col">
-            address--6
+            {{request.customer_address}}
           </div>
           <div class="col">
-            12-05-2024
+            {{request.service_date}}
           </div>
           <div class="col">
             4.5
           </div>
         </div>
-        <div class="row align-items-start">
-          <div class="col">
-           <a href="#">7</a>
-          </div>
-          <div class="col">
-            Customer--7
-          </div>
-          <div class="col">
-            +91 9876543210
-          </div>
-          <div class="col">
-            address--7
-          </div>
-          <div class="col">
-            13-05-2024
-          </div>
-          <div class="col">
-            4.4
-          </div>
-        </div>
-        <div class="row align-items-start">
-          <div class="col">
-           <a href="#">8</a>
-          </div>
-          <div class="col">
-            Customer--8
-          </div>
-          <div class="col">
-            +91 9876543210
-          </div>
-          <div class="col">
-            address--8
-          </div>
-          <div class="col">
-            14-05-2024
-          </div>
-          <div class="col">
-            4.6
-          </div>
-        </div>
-        <div class="row align-items-start">
-          <div class="col">
-           <a href="#">9</a>
-          </div>
-          <div class="col">
-            Customer--9
-          </div>
-          <div class="col">
-            +91 9876543210
-          </div>
-          <div class="col">
-            address--9
-          </div>
-          <div class="col">
-            15-05-2024
-          </div>
-          <div class="col">
-            4.8
-          </div>
-        </div>
-        <div class="row align-items-start">
-          <div class="col">
-           <a href="#">10</a>
-          </div>
-          <div class="col">
-            Customer--10
-          </div>
-          <div class="col">
-            +91 9876543210
-          </div>
-          <div class="col">
-            address--10
-          </div>
-          <div class="col">
-            16-05-2024
-          </div>
-          <div class="col">
-            4.1
-          </div>
-        </div>
+
+{%endif%}
+{%endfor%}
+{%else%}
+<div class="centre"> Not any closed Service</div>
+{%endif%}        
+
+
+  
+        
         
       </div>
      

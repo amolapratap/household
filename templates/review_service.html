@@ -1,0 +1,24 @@
+{% extends "customer_layout.html" %}
+
+{% block content %}
+<h2> Review</h2>
+<form action="#" method="POST">
+    <div class="mb-3">
+        <label for="review" class="form-label">Your Review</label>
+        <textarea class="form-control" id="review" name="review" rows="4" placeholder="Share your experience"></textarea>
+    </div>
+    <div class="mb-3">
+        <label for="rating" class="form-label">Rating</label>
+        <select class="form-select" id="rating" name="rating">
+            <option value="5">5 - Excellent</option>
+            <option value="4">4 - Good</option>
+            <option value="3">3 - Average</option>
+            <option value="2">2 - Poor</option>
+            <option value="1">1 - Terrible</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit Review</button>
+</form>
+
+
+{% endblock %}

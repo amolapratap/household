@@ -4,6 +4,9 @@ from flask import current_app as app
 from .models import *
 from datetime import date,datetime
 from flask_migrate import Migrate
+from sqlalchemy import func
+from werkzeug.utils import secure_filename
+import mtplotlib.pyplot as plt
 
 
 @app.route("/")
@@ -117,7 +120,7 @@ def customer_dashboard(name):
     services=get_services()
     customer=get_customer(name)
     services_request=get_customer_service_history(name)
-    return render_template("customer_dashboard.html",name=name,services=services,customer=customer,services_request=services_request)
+    return render_template("customer_dashboard.html",name=name,services=services,customer=customer,services_request=services_request)   #services_request is specially created for access service request on customer dashboard
 
 #common route for view service
 @app.route("/view_services/<service_professional>/<service>/<cid>/<name>")
@@ -229,7 +232,59 @@ def book_service(sid,cid,pid,name):
        
     
     return render_template("book_service.html",professional=professional,service=service,name=name,cid=cid)
+     
+#@app.route("/edit_request/<sr_id>/<sid>/<cid>/<pid>/<name>",methods=["GET","POST"])
+@app.route("/edit_request/<sr_id>/<name>",methods=["GET","POST"])   #when customer want to edit request
+def edit_service_request(sr_id,name):
+    #professional=Professional.query.filter_by(id=pid).first()
+    #service=get_service(sid)
+    services_request=get_customer_service_history(name)
+    edit_request_data=next((item for item in services_request if item.request_id==int(sr_id)),None)
+
+    if request.method=="POST":
+        service_request=get_one_service_request(sr_id)
+        #taking  data from form
+        description=request.form.get("description")
+        date=request.form.get("service_date")
+        date=datetime.strptime(date, "%Y-%m-%d")
+        date = date.strftime("%d-%m-%Y")
+        #updating data
+        service_request.description=description
+        service_request.service_date=date
+        db.session.commit()
+        return redirect(url_for("customer_dashboard",name=name))
     
+    return render_template("edit_request.html",name=name,sr_id=sr_id,edit_request_data=edit_request_data)
+    return render_template("edit_reuest.html",professional=professional,service=service,name=name,cid=cid,sr_id=sr_id)
+    
+@app.route("/close_request/<sr_id>/<name>",methods=["GET","POST"])   #when customer want to close request after service done
+def close_service_request(sr_id,name):
+    request=get_one_service_request(sr_id)
+    request.status="closed"
+    db.session.commit()
+    return redirect(url_for("customer_dashboard",name=name))
+    
+@app.route("/update_service_request/<sr_id>/<name>",methods=["GET","POST"])    #when Professional will accept a service request
+def update_service_request(sr_id,name):
+    request=get_one_service_request(sr_id)
+    request.status="Accepted"
+    db.session.commit()
+    return redirect(url_for("professional_dashboard",name=name)) 
+
+@app.route("/reject_service_request/<sr_id>/<name>",methods=["GET","POST"])   #when Professional will reject a service request
+def reject_service_request(sr_id,name):
+    request=get_one_service_request(sr_id)
+    request.status="Rejected"
+    db.session.commit()
+    return redirect(url_for("professional_dashboard",name=name))
+   
+
+#SUMMARY
+#admin   
+   
+   
+   
+   
 #other supported function
 #Service function
 def get_services():
@@ -266,7 +321,8 @@ def get_customer_service_history_to_professional(name):
             Customer.full_name.label("customer_name"),
             Customer.mobile_number.label("customer_mobile"),
             Customer.address.label("customer_address"),
-            Service_Request.service_date.label("service_date")
+            Service_Request.service_date.label("service_date"),
+            Service_Request.status.label("service_status")
         )
         .join(Service, Service_Request.Service_id == Service.id)
         .join(Customer, Service_Request.Customer_id == Customer.id)
@@ -289,10 +345,14 @@ def get_customer_service_history(name):
         db.session.query(
             Service_Request.id.label("request_id"),
             Service.name.label("service_name"),
+            Service.price.label("service_price"),
             Professional.full_name.label("professional_name"),
+            Professional.address.label("professional_address"),
             Professional.mobile_number.label("professional_mobile"),
+            Professional.description.label("professional_description"),
             Service_Request.service_date.label("service_date"),
-            Service_Request.status.label("status")
+            Service_Request.status.label("status"),
+            Service_Request.description.label("customer_description")
         )
         .join(Service, Service_Request.Service_id == Service.id)
         .join(Professional, Service_Request.Professional_id == Professional.id)
@@ -317,11 +377,12 @@ def get_services_request(name):       #Service Request to customer services_requ
     customer=get_customer(name)
     cid=customer.id
     all_service_request=Service_Request.query.filter_by(Customer_id=cid).all()
-    print("AMOL")
-    print(f"Customer ID: {cid}")
-    print("this is:--", all_service_request )
     return all_service_request
         
+def get_one_service_request(sr_id):
+    service_request = Service_Request.query.filter_by(id=sr_id).first()
+    return service_request
+    
 def search_by_service(search_txt):
     services = Service.query.filter(Service.name.ilike('%' + search_txt + '%')).all()
     return services
