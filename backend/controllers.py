@@ -6,7 +6,9 @@ from datetime import date,datetime
 from flask_migrate import Migrate
 from sqlalchemy import func
 from werkzeug.utils import secure_filename
-import mtplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 
 @app.route("/")
@@ -126,7 +128,7 @@ def customer_dashboard(name):
 @app.route("/view_services/<service_professional>/<service>/<cid>/<name>")
 def view_services(service_professional,service,cid,name):
     cnf_msg=" Congratulations, Service Booked Successfully! Do you Want any other Service"
-    return render_template("view_service.html",service_professional=service_professional,service=service,cid=cid,name=name,cnf_msg=cnf_msg) 
+    return render_template("view_service.html",service_professional=service_professional,service=service,cid=cid,name=name) 
 
 
 
@@ -209,8 +211,8 @@ def view_service(sid,cid,name):
 
 @app.route("/book_service/<sid>/<cid>/<pid>/<name>",methods=["GET","POST"])
 def book_service(sid,cid,pid,name):
-    professional=Professional.query.filter_by(id=pid).first()
-    service=get_service(sid)
+    professional=get_professional_by_id(pid)   #Professional.query.filter_by(id=pid).first()
+    service=get_service(sid) 
     if request.method=="POST":
         #taking  data from form
         current_date = date.today()
@@ -259,15 +261,37 @@ def edit_service_request(sr_id,name):
     
 @app.route("/close_request/<sr_id>/<name>",methods=["GET","POST"])   #when customer want to close request after service done
 def close_service_request(sr_id,name):
-    request=get_one_service_request(sr_id)
-    request.status="closed"
-    db.session.commit()
-    return redirect(url_for("customer_dashboard",name=name))
+    service_request=get_one_service_request(sr_id)
+    pid=service_request.Professional_id
+    professional=get_professional_by_id(pid)
+    if request.method == "POST":
+        review = request.form.get("review")
+        rating = int(request.form.get("rating"))
+        #update
+        #service_request.review=review
+        service_request.rating=rating
+        service_request.status="closed"
+        #update Professional profile
+        rating_sum=float(professional.rating) * int(professional.rating_count)
+        professional.rating_count =int(professional.rating_count)+1
+        rating_now=(float(rating_sum)+service_request.rating)/professional.rating_count
+        professional.rating=f"{rating_now:.2f}"
+        current_date = date.today()
+        current_date = current_date.strftime("%d-%m-%Y")
+        service_request.date_of_completion=current_date
+        db.session.commit()
+        return redirect(url_for("customer_dashboard",name=name))
+    
+    return render_template("review_service.html",name=name,sr_id=sr_id)
+
+
+
+
     
 @app.route("/update_service_request/<sr_id>/<name>",methods=["GET","POST"])    #when Professional will accept a service request
 def update_service_request(sr_id,name):
     request=get_one_service_request(sr_id)
-    request.status="Accepted"
+    request.status="Accepted, Ongoing"
     db.session.commit()
     return redirect(url_for("professional_dashboard",name=name)) 
 
@@ -280,7 +304,28 @@ def reject_service_request(sr_id,name):
    
 
 #SUMMARY
-#admin   
+@app.route("/admin_summary/<name>")
+def admin_summary(name):
+    plot=get_admin_summary()
+    plot.savefig(f"./static/image/{name}_admin_summary.jpeg")
+    plot.clf()
+    return render_template("admin_summary.html",name=name)
+
+@app.route("/professional_summary/<name>")
+def professional_summary(name):
+    plot=get_professional_summary(name)
+    plot.savefig(f"./static/image/professional/{name}_professional_summary.jpeg")
+    plot.clf()
+    return render_template("professional_summary.html",name=name)
+
+@app.route("/customer_summary/<name>")
+def customer_summary(name):
+    plot=get_customer_summary(name)
+    plot.savefig(f"./static/image/customer/{name}_customer_summary.jpeg")
+    plot.clf()
+    return render_template("customer_summary.html",name=name)
+
+
    
    
    
@@ -309,7 +354,7 @@ def get_professional(name):
     return professional
 
 def get_professional_by_id(pid):
-    Professionals=Professional.query.filter_by(id=pid).all()
+    Professionals=Professional.query.filter_by(id=pid).first()
     return Professionals
 
 def get_customer_service_history_to_professional(name):
@@ -322,7 +367,8 @@ def get_customer_service_history_to_professional(name):
             Customer.mobile_number.label("customer_mobile"),
             Customer.address.label("customer_address"),
             Service_Request.service_date.label("service_date"),
-            Service_Request.status.label("service_status")
+            Service_Request.status.label("service_status"),
+            Service_Request.rating.label("service_rating")
         )
         .join(Service, Service_Request.Service_id == Service.id)
         .join(Customer, Service_Request.Customer_id == Customer.id)
@@ -406,4 +452,50 @@ def get_service(id):
     return service
 
 
-                                                 
+#Summary Function
+def get_admin_summary():
+    req=get_services_request_admin()
+    summary={}
+    for r in req:
+        if r.status not in summary:
+            summary[r.status]=0
+        summary[r.status]+=1
+    x_status=list(summary.keys())
+    y_number= list(summary.values())
+    plt.bar(x_status,y_number,color="blue",width=0.5)
+    plt.title("Service Request Status summary")
+    plt.xlabel("status")
+    plt.ylabel("number of requests")
+    return plt
+
+def get_professional_summary(name):
+    req=all_services_request(name)   #all request to a particular professional
+    summary={}
+    for r in req:
+        if r.status not in summary:
+            summary[r.status]=0
+        summary[r.status]+=1
+    x_status=list(summary.keys())
+    y_number= list(summary.values())
+    plt.bar(x_status,y_number,color="blue",width=0.5)
+    plt.title("Service Request Status summary")
+    plt.xlabel("status")
+    plt.ylabel("number of requests")
+    return plt
+
+ 
+              
+def get_customer_summary(name):
+    req=get_services_request(name)   #all request by a particular customer
+    summary={}
+    for r in req:
+        if r.status not in summary:
+            summary[r.status]=0
+        summary[r.status]+=1
+    x_status=list(summary.keys())
+    y_number= list(summary.values())
+    plt.bar(x_status,y_number,color="blue",width=0.5)
+    plt.title("Service Request Status summary")
+    plt.xlabel("status")
+    plt.ylabel("number of requests")
+    return plt                                                            

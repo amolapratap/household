@@ -55,7 +55,7 @@
                       {{request.service_date}}
                     </div>
 <!--Service Status-->                    
-            {%if request.service_status == 'Accepted' %}
+            {%if request.service_status == 'Accepted, Ongoing' %}
                     <div class="col">
                       <p> Ongoing </p>
                     </div>
@@ -133,7 +133,7 @@
             {{request.service_date}}
           </div>
           <div class="col">
-            4.5
+            {{request.service_rating}}
           </div>
         </div>
 

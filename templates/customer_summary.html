@@ -1,0 +1,16 @@
+{% extends "customer_layout.html" %}
+
+{% block content %}
+<h2> SUMMARY</h2>
+
+    <div class="mb-3">
+        <h3> Graphical data of service Request Status </h3>
+    </div>
+    <div class="mb-3">
+     <!---  <img src="./static/image/admin_summary.jpeg" widh="200" height="200">   -->
+     <img src="{{url_for('static', filename='image/customer/'+name+'_customer_summary.jpeg')}}" >    
+    </div>
+
+
+
+{% endblock %}

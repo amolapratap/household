@@ -88,7 +88,7 @@
                       {{service_request.service_date}}
                       </div>
 <!--Mobile Number-->
-{%if service_request.status=="Accepted"%} 
+{%if service_request.status=="Accepted, Ongoing"%} 
                       <div class="col">
                      {{service_request.professional_mobile}}
                     </div>
@@ -99,9 +99,9 @@
 {%endif%}
 
 <!--Service Status-->
-{%if service_request.status=="Accepted"%}
+{%if service_request.status=="Accepted, Ongoing"%}
                     <div class="col" >
-                      {{service_request.status}}  <a href="/close_request/{{service_request.request_id}}/{{name}}"  class="btn btn-primary"> Close it?  </a> 
+                      {{service_request.status}}  <a href="/close_request/{{service_request.request_id}}/{{name}}"  class="btn btn-primary"> Close it?  </a>,if Service done 
                     </div> 
 {%elif service_request.status=="Requested"%}
                     <div class="col" >

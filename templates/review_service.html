@@ -2,14 +2,14 @@
 
 {% block content %}
 <h2> Review</h2>
-<form action="#" method="POST">
+<form action="/close_request/{{sr_id}}/{{name}}" method="POST">
     <div class="mb-3">
         <label for="review" class="form-label">Your Review</label>
-        <textarea class="form-control" id="review" name="review" rows="4" placeholder="Share your experience"></textarea>
+        <textarea class="form-control" name="review" id="review" name="review" rows="4" placeholder="Share your experience"></textarea>
     </div>
     <div class="mb-3">
         <label for="rating" class="form-label">Rating</label>
-        <select class="form-select" id="rating" name="rating">
+        <select class="form-select" name="rating" id="rating" name="rating">
             <option value="5">5 - Excellent</option>
             <option value="4">4 - Good</option>
             <option value="3">3 - Average</option>
