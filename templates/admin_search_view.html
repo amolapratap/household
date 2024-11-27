@@ -4,7 +4,7 @@
 
 
           <!--start of Service-->
-{%if services%}
+{%if category=="service"%}
          <div class="my_container">
             <div class="centre"> <h1>Services </h1></div>
               <div class="my_panel">
@@ -33,22 +33,22 @@
 
                   <div>
                   <div>
-                  {%for service in services%}
+                  {%for result in results%}
                   <div class="row align-items-start">
                     <div class="col">
-                     <a href="#"> {{service.id}}</a>
+                     <a href="#"> {{result.id}}</a>
                     </div>
                     <div class="col">
-                      {{service.name}}
+                      {{result.name}}
                     </div>
                     <div class="col">
-                      {{service.price}}
+                      {{result.price}}
                     </div>
                     <div class="col">
-                      {{service.action}}
+                      {{result.action}}
                     </div>
                     <div class="col">
-                      {{service.description}}
+                      {{result.description}}
                     </div>
                   </div>
                 
@@ -66,7 +66,7 @@
 
 
         <!--start of professional-->
-{%elif professionals%}        
+{%elif category=="professional"%}     
         <div class="my_container">   
           <div class="centre"> <h1> Professional </h1></div>
             <div class="my_panel">
@@ -94,19 +94,19 @@
               
 
                 
-                {%for professional in professionals%}
+                {%for result in results%}
                 <div class="row align-items-start">
                   <div class="col">
-                   <a href="#"> {{professional.id}} </a>
+                   <a href="#"> {{result.id}} </a>
                   </div>
                   <div class="col">
-                    {{professional.full_name}}
+                    {{result.full_name}}
                   </div>
                   <div class="col">
-                    {{professional.service_type}}
+                    {{result.service_type}}
                   </div>
                   <div class="col">
-                    {{professional.experience}}
+                    {{result.experience}}
                   </div>
                   <div class="col">
                     Approve/Reject/Delete
@@ -124,7 +124,7 @@
 
       <br><br><br>
       <!--start of Customer-->
-{%elif customers%}        
+{%elif category=="customer"%}         
 <div class="my_container">   
   <div class="centre"> <h1> Customer </h1></div>
     <div class="my_panel">
@@ -155,32 +155,32 @@
       
 
         
-        {%for customer in customers%}
+        {%for result in results%}
         <div class="row align-items-start">
           <div class="col">
-           <a href="#"> {{customer.id}} </a>
+           <a href="#"> {{result.id}} </a>
           </div>
           <div class="col">
-            {{customer.full_name}}
+            {{result.full_name}}
           </div>
           <div class="col">
-            {{customer.address}}
+            {{result.address}}
           </div>
           <div class="col">
-            {{customer.pincode}}
+            {{result.pincode}}
           </div>
           <div class="col">
-            {{customer.date_created}}
+            {{result.date_created}}
           </div>
           <div class="col">
-            {{customer.description}}
+            {{result.description}}
           </div>
         </div>
           {%endfor%}
         
         
     
-<!--end of professional-->
+<!--end of Customer-->
 
 
 
@@ -189,7 +189,7 @@
       <br><br>
 
       <!--start of Service request-->
-{%elif servicerequests%}        
+{%elif category=="service_request"%}         
       <div class="my_container">
         <div class="centre"> <h1>Services Request </h1></div>
           <div class="my_panel">
@@ -211,19 +211,19 @@
                 </div>
               </div>  </b>
 
-              {%for servicerequest in servicerequests%}
+              {%for result in results%}
               <div class="row align-items-start">
                 <div class="col">
-                 <a href="#"> {{servicerequest.id}} </a>
+                 <a href="#"> {{result.id}} </a>
                 </div>
                 <div class="col">
-                  {{servicerequest.Professional_id}}
+                  {{result.Professional_id}}
                 </div>
                 <div class="col">
-                  {{servicerequest.date_of_request}}
+                  {{result.date_of_request}}
                 </div>
                 <div class="col">
-                  {{servicerequest.status}}
+                  {{result.status}}
                 </div>
               </div>
               {%endfor%}

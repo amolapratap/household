@@ -1,0 +1,82 @@
+{%extends "professional_layout.html"%}
+{%block content_search_view%}    <!--Inherited all nav featues-->
+
+
+
+          <!--start of Service request History-->
+                        
+         <div class="my_container">
+            <div class="centre"> <h1>Services History</h1></div>
+              <div class="my_panel">
+
+
+                {%if results%}
+                <div class="container text-center">
+                  <div class="row align-items-start" style="font-size: 20px;">
+                    <div class="col">
+                    ID
+                    </div>
+                    <div class="col">
+                    Name
+                    </div>
+                    <div class="col">
+                    Mobile number
+                    </div>
+                    <div class="col">
+                    Address
+                    </div>
+                    <div class="col">
+                    Service Date
+                    </div>
+                    <div class="col">
+                    Rating
+                       </div>
+                  </div>
+
+
+
+                  
+                  <div>
+                  <div>
+                  {%for result in results%}
+                  <div class="row align-items-start">
+                    <div class="col">
+                     <a href="#"> {{result.id}}</a>
+                    </div>
+                    <div class="col">
+                      {{result.customer.full_name}}
+                    </div>
+                    <div class="col">
+                        {{result.customer.mobile_number}}
+                    </div>
+                    <div class="col">
+                        {{result.customer.address}}
+                    </div>
+                    <div class="col">
+                      {{result.service_date}}
+                    </div>
+                    <div class="col">
+                        {{result.rating}}
+                      </div>
+                  </div>
+                
+                  {%endfor%}
+              
+               
+              
+
+        <!--end of Service request History-->
+
+<br>
+<br>
+
+
+        
+<!-- if not found any from above-->
+{%else%}
+    <div class="centre">
+      {{msg}}
+    </div>
+{%endif%}
+  
+    {%endblock%}

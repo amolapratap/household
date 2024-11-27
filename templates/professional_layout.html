@@ -17,9 +17,18 @@
                       <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/professional/{{name}}">Home</a>
                       </li>
-                      <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Search</a>
-                      </li>
+                      <form class="d-flex" action="/search_professional/{{name}}" method="POST">
+                        <!-- Dropdown for Categories --> 
+                        <select class="form-select me-2" name="category" id="category">
+                          <option value="cust_name">Name</option>
+                          <option value="address">Address</option>
+                          <option value="service_date">Service Date</option>
+                        </select>
+                        <!-- search box -->
+                        
+                          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search_txt" id="search_txt"> 
+                          <button class="btn btn-primary" type="submit">Search</button>
+                        </form>
                       <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/professional_summary/{{name}}">Summary</a>
                       </li>
@@ -43,6 +52,11 @@
             {%endblock%}
 
             {%block content_add_service%}
+            <!--This part is getting from child html (add new Service)-->
+
+            {%endblock%}
+
+            {%block content_search_view%}
             <!--This part is getting from child html (add new Service)-->
 
             {%endblock%}

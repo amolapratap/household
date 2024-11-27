@@ -9,6 +9,9 @@ from werkzeug.utils import secure_filename
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+from sqlalchemy import or_
+
+
 
 
 @app.route("/")
@@ -152,25 +155,47 @@ def add_service(name):
     return render_template("add_service.html",name=name)
 
 
-@app.route("/search/<name>",methods=["GET","POST"])
-def search(name):
+@app.route("/search_admin/<name>",methods=["GET","POST"])
+def search_admin(name):
     if request.method=="POST":
         search_txt=request.form.get("search_txt")
-        by_service=search_by_service(search_txt)
-        by_professional=search_by_professional(search_txt)
-        by_customer=search_by_customer(search_txt)
-        #by_service_request=search_by_service_request(search_txt)
-        if by_service:
-            return render_template("admin_search_view.html",name=name,services=by_service)
-        elif by_professional:
-            return render_template("admin_search_view.html",name=name,professionals=by_professional)
-        elif by_customer:
-            return render_template("admin_search_view.html",name=name,customers=by_customer)
-       # elif by_service_request:
-       #     return render_template("admin_search_view.html",name=name,servicerequests=by_service_request)
-        else:
-            return render_template("admin_search_view.html",name=name,msg="Not Found")
-    return redirect(url_for("admin_dashboard",name=name))     
+        category=request.form.get("category")       # Drop-down t0 select a category
+        result=""
+        
+        if category=="service":
+            result=search_by_service(search_txt)
+        elif category=="professional":
+            result=search_by_professional(search_txt)
+        elif category=="customer":
+            result=search_by_customer(search_txt)
+        elif category=="service_request":
+            result=search_by_service_request(search_txt)
+        return render_template("admin_search_view.html",name=name,category=category,results=result,msg="Not Found")
+        
+     
+    return redirect(url_for("admin_dashboard",name=name))
+
+
+@app.route("/search_professional/<name>",methods=["GET","POST"])
+def search_professional(name):
+    if request.method=="POST":
+        professional=Professional.query.filter_by(email=name).first()
+        search_txt=request.form.get("search_txt")
+        category=request.form.get("category")       # Drop-down to select a category
+        #result=""
+        
+        if category=="cust_name":
+            result=Service_Request.query.join(Customer).filter(Service_Request.Professional_id==professional.id,Customer.full_name.ilike(f"%{search_txt}%")).all()
+ 
+        elif category=="address":
+            result=Service_Request.query.join(Customer).filter(Service_Request.Professional_id==professional.id,Customer.address.ilike(f"%{search_txt}%")).all()
+        elif category=="service_date":
+            result=Service_Request.query.filter(Service_Request.Professional_id==professional.id,Service_Request.service_date.ilike(f"%{search_txt}%")).all()
+        return render_template("professional_search_view.html",name=name,category=category,results=result,msg="Not Found")
+        
+    return redirect(url_for("customer_dashboard",name=name))     
+
+
 
 
 
@@ -384,6 +409,8 @@ def get_customer(name):
     customer=Customer.query.filter_by(email=name).first()
     return customer
 
+
+
 def get_customer_service_history(name):
     customer=get_customer(name)
     customer_id=customer.id
@@ -424,28 +451,33 @@ def get_services_request(name):       #Service Request to customer services_requ
     cid=customer.id
     all_service_request=Service_Request.query.filter_by(Customer_id=cid).all()
     return all_service_request
+
+
         
 def get_one_service_request(sr_id):
     service_request = Service_Request.query.filter_by(id=sr_id).first()
     return service_request
-    
+   
+   
+#Search Function 
 def search_by_service(search_txt):
-    services = Service.query.filter(Service.name.ilike('%' + search_txt + '%')).all()
+    services = Service.query.filter(or_(Service.name.ilike('%' + search_txt + '%'), Service.price.ilike('%' + search_txt + '%'))).all()
     return services
 
 
 def search_by_professional(search_txt):
-    professionals = Professional.query.filter(Professional.full_name.ilike('%' + search_txt + '%')).all()
+    professionals = Professional.query.filter(or_(Professional.full_name.ilike('%' + search_txt + '%'),Professional.service_type.ilike('%' + search_txt + '%'),Professional.experience.ilike('%' + search_txt + '%'))).all()
     return professionals
 
 
 def search_by_customer(search_txt):
-    customers = Customer.query.filter(Customer.full_name.ilike('%' + search_txt + '%')).all()
+    customers = Customer.query.filter(or_(Customer.full_name.ilike('%' + search_txt + '%'),Customer.address.ilike('%' + search_txt + '%'),Customer.date_created.ilike('%' + search_txt + '%'))).all()
     return customers
 
 def search_by_service_request(search_txt):
-    service_requests = Service_Request.query.filter(Service_Request.status.ilike('%' + search_txt + '%')).all()
-    return service_requests     
+    service_requests = Service_Request.query.filter(or_(Service_Request.status.ilike('%' + search_txt + '%'),Service_Request.service_date.ilike('%' + search_txt + '%'),Service_Request.id.ilike('%' + search_txt + '%'))).all()
+    return service_requests  
+
 
 def get_service(id):
     service = Service.query.filter_by(id=id).first()

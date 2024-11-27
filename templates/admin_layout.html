@@ -17,9 +17,19 @@
                       <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/admin/{{name}}">Home</a>
                       </li>
-                      <form class="d-flex" action="/search/{{name}}" method="POST">
-                        <input class="form-control me-2" type="search" placeholder="Search Servicece/ Professional/ Customer" aria-label="Search" name="search_txt" id="search_txt"> 
-                        <button class="btn btn-outline-success" type="submit">Search</button>
+
+                      <form class="d-flex" action="/search_admin/{{name}}" method="POST">
+                      <!-- Dropdown for Categories -->
+                      <select class="form-select me-2" name="category" id="category">
+                        <option value="service">Service</option>
+                        <option value="professional">Professional</option>
+                        <option value="customer">Customer</option>
+                        <option value="service_request">Service Request</option>
+                      </select>
+                      <!-- search box -->
+                      
+                        <input class="form-control me-2" type="search" placeholder="Search " aria-label="Search" name="search_txt" id="search_txt"> 
+                        <button class="btn btn-primary" type="submit">Search</button>
                       </form>
                       <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/admin_summary/{{name}}">Summary</a>
