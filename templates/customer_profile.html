@@ -1,0 +1,44 @@
+{%extends "customer_layout.html"%}
+{%block content%}      <!--Inherited all nav featues-->
+
+
+
+<div class="my_container">
+    <div class="centre"> <h1> Profile</h1></div>
+      <div class="my_panel">
+        <div style="border: 1px solid #ddd; padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff;">
+           
+
+<h4> ID: {{customer.id}} </h4>
+<h4> Name: {{customer.full_name}} </h4>
+<h4> Email: {{customer.email}} </h4>
+<h4> Address: {{customer.address}} </h4>
+<h4> Pin code: {{customer.pincode}} </h4>
+<h4> Using from: {{customer.date_created}} </h4>
+<h4> Mobile Number: {{customer.mobile_number}} </h4>
+<h4> Description: {{customer.description}} </h4>
+
+
+            </div>
+
+
+
+
+</div>   
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{%endblock%}

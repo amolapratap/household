@@ -26,6 +26,7 @@ class Professional(db.Model):
     pincode=db.Column(db.Integer,nullable=False)
     date_created=db.Column(db.String,default=0)
     mobile_number=db.Column(db.Integer,nullable=False)
+    cv=db.Column(db.String,nullable=True,default="None")
     description=db.Column(db.String)
     rating=db.Column(db.String,default=0)
     rating_count=db.Column(db.String,default=0)
@@ -75,6 +76,7 @@ class Service_Request(db.Model):
     description=db.Column(db.String)  
     status=db.Column(db.String,default=0) 
     rating=db.Column(db.String,default=0)  
+    review=db.Column(db.String,nullable=True,default="None")
     # Relationships
     #service_name = db.relationship('service', backref='servicerequests')  #Service_id can access his name
    

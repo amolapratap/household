@@ -55,9 +55,7 @@
                   {%endfor%}
               
                
-              </div>
-              <div class="centre"> <a href="/add_venue/{{name}}" type="button" class="btn btn-primary" class="centre"> +New Service</a> </div>
-        </div>
+             
 
         <!--end of Service-->
 
@@ -87,7 +85,9 @@
                     Experience(in month)
                   </div>
                   <div class="col">
-                    Action
+                   Action
+
+                   
                   </div>
                 </div>  </b>
                 
@@ -109,7 +109,15 @@
                     {{result.experience}}
                   </div>
                   <div class="col">
-                    Approve/Reject/Delete
+                    
+                    <a href="/delete_professional/{{result.id}}/{{name}}"> Delete </a>
+
+                    {% if result.id %}
+        <p><strong>CV:</strong> <a href="{{ url_for('static', filename='./uploaded_cv/' + result.cv) }}" target="_blank">View CV</a></p>
+    {% else %}
+        <p>No CV uploaded.</p>
+    {% endif %}
+
                   </div>
                 </div>
                   {%endfor%}

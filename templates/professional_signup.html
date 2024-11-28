@@ -12,7 +12,7 @@
         <div class="centre"> <h1>Household Sevice </h1></div>
             <div class="my_panel">
             <div class="centre"> <h3>Professional Sign up </h3></div>
-            <form action="/register_professional" method="POST">
+            <form action="/register_professional" enctype="multipart/form-data" method="POST">
                 <div class="signup_form">
                     <div class="mb-3">
                         <label for="user_name" class="form-label">Email </label>
@@ -61,6 +61,11 @@
                         <label for="password" class="form-label">Password </label>
                         <input type="password" class="form-control" name="password" id="password" placeholder="Enter Your password">
                       </div>
+
+                      <div class="mb-3">
+                        <label for="file_upload" class="form-label">CVFile</label>
+                        <input type="file" class="form-control" name="file_upload" id="file_upload">
+                    </div>
                       
                       <div class="mb-3">
                       <button type="submit" class="btn btn-primary">Sign Up</button>  

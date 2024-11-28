@@ -1,0 +1,47 @@
+{%extends "professional_layout.html"%}
+{%block content%}      <!--Inherited all nav featues-->
+
+
+
+<div class="my_container">
+    <div class="centre"> <h1> Profile</h1></div>
+      <div class="my_panel">
+        <div style="border: 1px solid #ddd; padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff;">
+           
+
+<h4> ID: {{professional.id}} </h4>
+<h4> Name: {{professional.full_name}} </h4>
+<h4> Email: {{professional.email}} </h4>
+<h4> Service Name: {{professional.service_type}} </h4>
+<h4> Experience: {{professional.experience}} </h4>
+<h4> Address: {{professional.address}} </h4>
+<h4> Pin code: {{professional.pincode}} </h4>
+<h4> Joined on: {{professional.date_created}} </h4>
+<h4> Mobile Number: {{professional.mobile_number}} </h4>
+<h4> Description about my service: {{professional.description}} </h4>
+<h4> Rating: {{professional.rating}} </h4>
+
+
+            </div>
+
+
+
+
+</div>   
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{%endblock%}

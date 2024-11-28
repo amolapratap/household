@@ -10,6 +10,8 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from sqlalchemy import or_
+from werkzeug.utils import secure_filename
+import os
 
 
 
@@ -65,8 +67,18 @@ def register_professional():
         current_date = date.today()
         formatted_date = current_date.strftime("%d-%m-%Y")
         
+        file=request.files["file_upload"]
+        url=""
+        if file.filename:
+            file_name=secure_filename(file.filename) #Verification of the file is done
+            upload_folder = './static/uploaded_cv/'
+            #url=upload_folder+uname+"_"+file_name
+            url=os.path.join(upload_folder, file_name)
+            print("AAAAA:",url)
+            file.save(url)
+        
         # Creating a new Professional object with the form data
-        new_usr=Professional(email=uname,full_name=full_name,service_type=Service_type,experience=experience,address=address,pincode=pin_code,mobile_number=mobile_number,date_created=formatted_date,description=description,password=pwd)
+        new_usr=Professional(email=uname,full_name=full_name,service_type=Service_type,experience=experience,address=address,pincode=pin_code,mobile_number=mobile_number,date_created=formatted_date,description=description,password=pwd,cv=os.path.basename(url))
         # Add to the session and commit to save in database
         db.session.add(new_usr)
         db.session.commit()
@@ -193,11 +205,68 @@ def search_professional(name):
             result=Service_Request.query.filter(Service_Request.Professional_id==professional.id,Service_Request.service_date.ilike(f"%{search_txt}%")).all()
         return render_template("professional_search_view.html",name=name,category=category,results=result,msg="Not Found")
         
+    return redirect(url_for("professional_dashboard",name=name)) 
+
+@app.route("/search_customer/<name>",methods=["GET","POST"])
+def search_customer(name):
+    if request.method=="POST":
+        customer=Customer.query.filter_by(email=name).first()
+        search_txt=request.form.get("search_txt")
+        category=request.form.get("category")       # Drop-down to select a category
+        #result=""
+        
+        if category=="s_name":
+            result=db.session.query(Professional, Service) \
+                .join(Service, Service.name == Professional.service_type) \
+                .filter(Service.name.ilike(f"%{search_txt}%")).all()
+ 
+        elif category=="address":
+            result=db.session.query(Professional, Service) \
+                .join(Service, Service.name == Professional.service_type) \
+                .filter(Professional.address.ilike(f"%{search_txt}%")).all()
+        elif category=="pin_code":
+            if search_txt.isdigit():
+                result=db.session.query(Professional, Service) \
+                    .join(Service, Service.name == Professional.service_type) \
+                    .filter(Professional.pincode==int(search_txt)).all()
+            else:
+                result = "" 
+        else:
+            return render_template("customer_search_view.html",name=name,msg="Not Found")
+            
+        return render_template("customer_search_view.html",name=name,cid=customer.id,results=result,msg="Not Found")
+        
     return redirect(url_for("customer_dashboard",name=name))     
 
+#Profile
+@app.route("/professional_profile/<name>",methods=["GET","POST"])
+def professional_profile(name):
+    professional=get_professional(name)
+    return render_template("professional_profile.html",name=name,professional=professional)
 
+@app.route("/customer_profile/<name>",methods=["GET","POST"])
+def customer_profile(name):
+    customer=get_customer(name)
+    return render_template("customer_profile.html",name=name,customer=customer)
 
+@app.route("/view_professional_profile/<p_name>/<name>",methods=["GET","POST"])
+def view_professional_profile(p_name,name):
+    professional = Professional.query.filter_by(email=p_name).first()
 
+    service_requests = Service_Request.query.filter_by(Professional_id=professional.id).all()
+    reviews = []
+    for request in service_requests:
+        review = {
+        'rating': request.rating,
+        'review': request.review,
+        'customer_name': request.customer.full_name
+            }
+        reviews.append(review)
+        
+    return render_template("view_professional_profile.html",name=name,professional=professional,reviews=reviews)
+            
+            
+            
 
 @app.route("/edit_service/<sid>/<name>",methods=["GET","POST"])
 def edit_service(sid,name):
@@ -224,6 +293,12 @@ def delete_service(id,name):
     db.session.commit()
     return redirect(url_for("admin_dashboard",name=name))
 
+@app.route("/delete_professional/<pid>/<name>")
+def delete_professional(pid,name):
+    professional = Professional.query.filter_by(id=pid).first()
+    db.session.delete(professional)
+    db.session.commit()
+    return redirect(url_for("admin_dashboard",name=name))
 
 
 @app.route("/view_service/<sid>/<cid>/<name>",methods=["GET","POST"])
@@ -260,7 +335,7 @@ def book_service(sid,cid,pid,name):
     
     return render_template("book_service.html",professional=professional,service=service,name=name,cid=cid)
      
-#@app.route("/edit_request/<sr_id>/<sid>/<cid>/<pid>/<name>",methods=["GET","POST"])
+
 @app.route("/edit_request/<sr_id>/<name>",methods=["GET","POST"])   #when customer want to edit request
 def edit_service_request(sr_id,name):
     #professional=Professional.query.filter_by(id=pid).first()
@@ -293,7 +368,7 @@ def close_service_request(sr_id,name):
         review = request.form.get("review")
         rating = int(request.form.get("rating"))
         #update
-        #service_request.review=review
+        service_request.review=review
         service_request.rating=rating
         service_request.status="closed"
         #update Professional profile

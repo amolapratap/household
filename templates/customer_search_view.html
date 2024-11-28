@@ -9,18 +9,19 @@
 
 
 <div class="container mt-5" class="centre">
-  <h2 class="text-center mb-4">Best {{service.name}} Packages </h2>
+  <h2 class="text-center mb-4">Best   Packages </h2>
   <a href="/customer/{{name}}" type="" class="btn btn-primary" class="centre"> ←Back </a>  
   <div class="centre">
    
   </div>
-  {%if service_professional%}
-  {%for professional in service_professional%}
+  {%if results%}
+  {% for professional, service in results %}  
   <div class="list-group" class="content">
       <!-- Service 1 -->
       <div class="list-group-item border rounded d-flex justify-content-between align-items-center shadow-sm mb-2">
-        <!--pid="{{professional.id}}"  -->  
-          <span> {{professional.description}},          {{professional.full_name}},  {{professional.address}},  {{professional.rating}}, ₹{{service.price}}   <a href="/view_professional_profile/{{professional.email}}/{{name}}"> View professional </a>  </span>
+        <!--  -->  
+   
+          <span> {{professional.description}}, {{professional.full_name}},  {{professional.address}},  {{professional.pincode}}, {{professional.rating}}, ₹{{service.price}} <a href="/view_professional_profile/{{professional.email}}/{{name}}"> View professional </a>  </span>
           <a href="/book_service/{{service.id}}/{{cid}}/{{professional.id}}/{{name}}" class="btn btn-primary">Select</a>
       </div>
   </div>

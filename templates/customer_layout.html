@@ -27,6 +27,7 @@
     <body>
         <div class="my_container">
         <div class="centre"> <h1>Household Sevice </h1></div>
+        <a href="/customer_profile/{{name}}" style="color: white; background-color: #007BFF; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 16px; font-weight: bold;"> <span> Profile </span> </a>
             <div class="my_panel">
               <nav class="navbar navbar-expand-lg " style="background-color: #e3f2fd;">
                 <div class="container-fluid">
@@ -34,9 +35,18 @@
                       <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/customer/{{name}}">Home</a>
                       </li>
-                      <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Search</a>
-                      </li>
+                      <form class="d-flex" action="/search_customer/{{name}}" method="POST">
+                        <!-- Dropdown for Categories --> 
+                        <select class="form-select me-2" name="category" id="category">
+                          <option value="s_name">Service Name</option>
+                          <option value="address">Address</option>
+                          <option value="pin_code">pin code</option>
+                        </select>
+                        <!-- search box -->
+                        
+                          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search_txt" id="search_txt"> 
+                          <button class="btn btn-primary" type="submit">Search</button>
+                        </form>
                       <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/customer_summary/{{name}}">Summary</a>
                       </li>

@@ -1,0 +1,47 @@
+{%extends "customer_layout.html"%}
+{%block content%}      <!--Inherited all nav featues-->
+
+
+<div class="my_container">
+    <div class="centre"> <h1>Professional Profile</h1></div>
+      <div class="my_panel">
+
+        <div class="profile-section">
+            <h2>{{ professional.full_name }}</h2>
+            <p><strong>Service Type:</strong> {{ professional.service_type }}</p>
+            <p><strong>Description:</strong> {{ professional.description }}</p>
+            <p><strong>Address:</strong> {{ professional.address }}</p>
+            <p><strong>Pincode:</strong> {{ professional.pincode }}</p>
+            <p><strong>Experience:</strong> {{ professional.experience }} years</p>
+            <p><strong>Rating:</strong> {{ professional.rating }} ({{ professional.rating_count }} reviews)</p>
+        </div>
+
+
+        <div class="reviews-section">
+            <h3>Customer Reviews</h3>
+            {% if reviews %}
+                <ul>
+                {% for review in reviews %}
+                    <li>
+                        <p><strong>Customer:</strong> {{ review.customer_name }}</p>
+                        <p><strong>Rating:</strong> {{ review.rating }}</p>
+                        <p><strong>Review:</strong> {{ review.review }}</p>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p>No reviews available.</p>
+            {% endif %}
+        </div>
+
+
+
+      </div>
+    </div>
+
+
+
+
+
+
+{%endblock%}

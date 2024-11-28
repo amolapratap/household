@@ -110,7 +110,14 @@
                     {{professional.experience}}
                   </div>
                   <div class="col">
-                    Approve/Reject/Delete
+                    <a href="/delete_professional/{{professional.id}}/{{name}}"> Delete </a>
+
+                    {% if professional.cv %}
+        <p><strong>CV:</strong> <a href="{{ url_for('static', filename='./uploaded_cv/' +  professional.cv ) }}" target="_blank">View CV</a></p>
+    {% else %}
+        <p>No CV uploaded.</p>
+    {% endif %}
+
                   </div>
                 </div>
                   {%endfor%}

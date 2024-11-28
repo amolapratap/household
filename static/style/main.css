@@ -32,7 +32,7 @@
 .signup_form{
     border: 1px solid blue;
     width: 600px;
-    height: 840px;
+    height: 1000px;
     margin: auto;
     margin-top: 20px;
     padding: 10px;
@@ -83,3 +83,14 @@
   .content {
       white-space: normal;
   }
+
+  .profile {
+    display: inline-block;
+    padding: 10px 20px;
+    color: rgb(163, 37, 37); /* Text color */
+    background-color: #00ff2a; /* Background color */
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px;
+    font-weight: bold;
+}
