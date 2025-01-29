@@ -69,7 +69,7 @@
 
         <!--start of professional-->
         <div class="my_container">   
-          <div class="centre"> <h1> Professional </h1></div>
+          <div class="centre"> <h1> Top Professional </h1></div>
             <div class="my_panel">
 
               
@@ -86,6 +86,9 @@
                   </div>
                   <div class="col">
                     Experience(in month)
+                  </div>
+                  <div class="col">
+                    Rating
                   </div>
                   <div class="col">
                     Action
@@ -108,6 +111,9 @@
                   </div>
                   <div class="col">
                     {{professional.experience}}
+                  </div>
+                  <div class="col">
+                    {{professional.rating}}
                   </div>
                   <div class="col">
                     <a href="/delete_professional/{{professional.id}}/{{name}}"> Delete </a>
@@ -146,7 +152,7 @@
 
       <!--start of Service request-->
       <div class="my_container">
-        <div class="centre"> <h1>Services Request </h1></div>
+        <div class="centre"> <h1>Recent Services Request </h1></div>
           <div class="my_panel">
 
 {%if services_request%}   

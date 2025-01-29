@@ -74,7 +74,6 @@ def register_professional():
             upload_folder = './static/uploaded_cv/'
             #url=upload_folder+uname+"_"+file_name
             url=os.path.join(upload_folder, file_name)
-            print("AAAAA:",url)
             file.save(url)
         
         # Creating a new Professional object with the form data
@@ -326,11 +325,9 @@ def book_service(sid,cid,pid,name):
         db.session.add(new_service_request)
         db.session.commit()
         
-        all_Service_professional=get_professionals()
         service=get_service(sid)
-        cnf_msg=" Congratulations, Service Booked Successfully! Do you Want any other Service"
-        return redirect(url_for("customer_dashboard",name=name,cnf_msg=cnf_msg))
-        #return redirect(url_for("view_services",service_professional=all_Service_professional,service=service,cid=cid,name=name))
+        return redirect(url_for("customer_dashboard",name=name))
+        
        
     
     return render_template("book_service.html",professional=professional,service=service,name=name,cid=cid)
@@ -442,7 +439,7 @@ def get_service(sid):
 
 #Professional function
 def get_professionals():
-    professionals = Professional.query.all()  
+    professionals = Professional.query.order_by(Professional.rating.desc()).limit(5).all()  
     return professionals
 
 def get_all_professionals(service_type):
@@ -512,7 +509,13 @@ def get_customer_service_history(name):
 
 #Service Request function
 def get_services_request_admin():       #Service Request to admin
-    all_service_request = Service_Request.query.all()  
+    #all_service_request = Service_Request.query.all()  
+    all_service_request = Service_Request.query.order_by(Service_Request.id.desc()).limit(5).all() 
+    return all_service_request
+
+def get_all_services_request_admin():       #Service Request to admin
+    #all_service_request = Service_Request.query.all()  
+    all_service_request = Service_Request.query.order_by(Service_Request.id.desc()).all() 
     return all_service_request
 
 def all_services_request(name):   #Service Request to Professional
@@ -541,7 +544,7 @@ def search_by_service(search_txt):
 
 
 def search_by_professional(search_txt):
-    professionals = Professional.query.filter(or_(Professional.full_name.ilike('%' + search_txt + '%'),Professional.service_type.ilike('%' + search_txt + '%'),Professional.experience.ilike('%' + search_txt + '%'))).all()
+    professionals = Professional.query.filter(or_(Professional.full_name.ilike('%' + search_txt + '%'),Professional.service_type.ilike('%' + search_txt + '%'),Professional.experience.ilike('%' + search_txt + '%'))).order_by(Professional.rating.desc()).all()
     return professionals
 
 
@@ -561,7 +564,7 @@ def get_service(id):
 
 #Summary Function
 def get_admin_summary():
-    req=get_services_request_admin()
+    req=get_all_services_request_admin()
     summary={}
     for r in req:
         if r.status not in summary:

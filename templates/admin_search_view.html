@@ -45,7 +45,7 @@
                       {{result.price}}
                     </div>
                     <div class="col">
-                      {{result.action}}
+                      <a class="btn btn-primary" href="/edit_service/{{result.id}}/{{name}}">    Edit <a class="btn btn-danger" href="/delete_service/{{result.id}}/{{name}}">Delete </a>
                     </div>
                     <div class="col">
                       {{result.description}}
@@ -85,6 +85,9 @@
                     Experience(in month)
                   </div>
                   <div class="col">
+                    Rating
+                  </div>
+                  <div class="col">
                    Action
 
                    
@@ -107,6 +110,9 @@
                   </div>
                   <div class="col">
                     {{result.experience}}
+                  </div>
+                  <div class="col">
+                    {{result.rating}}
                   </div>
                   <div class="col">
                     
