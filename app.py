@@ -28,27 +28,29 @@
     
 # #this today
 
-
 from flask import Flask
 from backend.models import db
 from flask_migrate import Migrate
 
-def create_app():
-    app = Flask(__name__)
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///household.sqlite3"
-    app.debug = True
+# Create Flask instance
+app = Flask(__name__)
 
-    db.init_app(app)
-    migrate = Migrate(app, db)
+# Configuration
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///household.sqlite3"
+app.debug = True
 
-    # Register routes here safely
-    with app.app_context():
-        from backend.controllers import *
+# Initialize database and migration
+db.init_app(app)
+migrate = Migrate(app, db)
+app.app_context().push()
 
-    return app
+print("Household service app is started...")
 
-# This variable must exist for Vercel to find it
-app = create_app()
+# ✅ Import routes *after* the app is created and pushed to context
+# This must be outside any function to avoid 'import * only allowed at module level'
+from backend import controllers
 
+# ✅ For Vercel, we export `app`
+# Vercel looks for `app` (not running it manually)
 if __name__ == "__main__":
     app.run()
