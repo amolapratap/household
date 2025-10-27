@@ -28,27 +28,27 @@
     
 # #this today
 
+
 from flask import Flask
 from backend.models import db
 from flask_migrate import Migrate
 
-# create Flask instance globally
-app = Flask(__name__)
+def create_app():
+    app = Flask(__name__)
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///household.sqlite3"
+    app.debug = True
 
-# configuration
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///household.sqlite3"
-app.debug = True
+    db.init_app(app)
+    migrate = Migrate(app, db)
 
-# setup database + migrations
-db.init_app(app)
-migrate = Migrate(app, db)
-app.app_context().push()
+    # Register routes here safely
+    with app.app_context():
+        from backend.controllers import *
 
-print("Household service app is started...")
+    return app
 
-# import routes after app initialization
-from backend.controllers import *
+# This variable must exist for Vercel to find it
+app = create_app()
 
-# run only when local
 if __name__ == "__main__":
     app.run()
